@@ -32,54 +32,54 @@ public class AlgoritmoValentao {
         }
 
         // declara o processo inativo
-        int inactiveProcessId = chooseRandomInactiveProcess();
-        System.out.println("Processo de id " + processos[inactiveProcessId].getId() + " está inativo");
+        int idProcessoInativo = chooseRandomInactiveProcess();
+        System.out.println("Processo de id " + processos[idProcessoInativo].getId() + " está inativo");
 
         // muda o status pra inativo
-        processos[inactiveProcessId].setStatus("Inativo");
+        processos[idProcessoInativo].setStatus("Inativo");
 
         // variavel de apoio
-        int idOfInitiator = 0;
+        int idInicial = 0;
 
         // loop infinito pra realizar os passos
         while (true) {
-            boolean higherProcesses = false;
+            boolean processosSuperiores = false;
 
             // itera por todos os processos
-            for (int i = idOfInitiator; i < n; i++) {
-                if (processos[idOfInitiator].getStatus().equals("ativo")) {
-                    if (idOfInitiator != i) {
-                        System.out.println("Processo " + idOfInitiator + " envia mensagem de Eleicao(" + idOfInitiator
+            for (int i = idInicial; i < n; i++) {
+                if (processos[idInicial].getStatus().equals("ativo")) {
+                    if (idInicial != i) {
+                        System.out.println("Processo " + idInicial + " envia mensagem de Eleicao(" + idInicial
                                 + ") para o processo " + i);
-                        higherProcesses = true;
+                        processosSuperiores = true;
                     }
                 } else {
-                    idOfInitiator++;
+                    idInicial++;
                 }
             }
 
             // checa por maiores processos
-            if (higherProcesses) {
+            if (processosSuperiores) {
                 // usa o loop novamente para iterar sobre os processos superiores
-                for (int i = idOfInitiator; i < n; i++) {
+                for (int i = idInicial; i < n; i++) {
                     if (processos[i].getStatus().equals("ativo")) {
-                        if (idOfInitiator != i) {
-                            System.out.println("Processo " + i + " responde mensagem de Ok(" + i + ") para o processo " + idOfInitiator);
+                        if (idInicial != i) {
+                            System.out.println("Processo " + i + " responde mensagem de Ok(" + i + ") para o processo " + idInicial);
                         }
                     }
                 }
-                idOfInitiator++;
+                idInicial++;
             } else {
                 // pega o processo ativo de maior índice para declarar como coordenador
-                int coord = processos[getMaxValue()].getId();
+                int coordenador = processos[getMaxValue()].getId();
 
                 // Exibe o processo coordenador
-                System.out.println("Por fim o processo " + coord + " se torna o coordenador");
+                System.out.println("Por fim o processo " + coordenador + " se torna o coordenador");
 
-                for (int i = coord - 1; i >= 0; i--) {
+                for (int i = coordenador - 1; i >= 0; i--) {
                     if (processos[i].getStatus().equals("ativo")) {
                         System.out.println(
-                                "Processo " + coord + " envia mensagem de Coordenador(" + coord + ") para o processo " + i);
+                                "Processo " + coordenador + " envia mensagem de Coordenador(" + coordenador + ") para o processo " + i);
                     }
                 }
 
@@ -93,34 +93,34 @@ public class AlgoritmoValentao {
     // Atribui uma variável aleatória para ser o processo inativo
     private int chooseRandomInactiveProcess() {
         Random random = new Random();
-        int randomIndex;
+        int randomId;
         do {
-            randomIndex = random.nextInt(n);
-        } while (!processos[randomIndex].getStatus().equals("ativo"));
-        return randomIndex;
+            randomId = random.nextInt(n);
+        } while (!processos[randomId].getStatus().equals("ativo"));
+        return randomId;
     }
 
     // Método para pegar o processo de maior valor ativo
     public int getMaxValue() {
-        int mxId = -99;
-        int mxIdIndex = 0;
+        int maxId = -99;
+        int maxIdIndex = 0;
         for (int i = 0; i < processos.length; i++) {
-            if (processos[i].getStatus().equals("ativo") && processos[i].getId() > mxId) {
-                mxId = processos[i].getId();
-                mxIdIndex = i;
+            if (processos[i].getStatus().equals("ativo") && processos[i].getId() > maxId) {
+                maxId = processos[i].getId();
+                maxIdIndex = i;
             }
         }
-        return mxIdIndex;
+        return maxIdIndex;
     }
 
     public static void main(String[] args) {
 
         // create instance of the BullyAlgoExample2 class
-        AlgoritmoValentao bully = new AlgoritmoValentao();
+        AlgoritmoValentao algoritmoValentao = new AlgoritmoValentao();
 
         // call ring() and performElection() method
-        bully.anel();
-        bully.performElection();
+        algoritmoValentao.anel();
+        algoritmoValentao.performElection();
 
     }
 
