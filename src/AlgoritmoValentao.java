@@ -48,34 +48,26 @@ public class AlgoritmoValentao {
             boolean higherProcesses = false;
 
             // iterate all the processos
-            for (int i = idOfInitiator + 1; i < n; i++) {
-                if (processos[i].getStatus().equals("ativo")) {
-                    System.out.println("Processo " + idOfInitiator + " envia mensagem de Eleicao(" + idOfInitiator
-                            + ") para o processo " + i);
-                    higherProcesses = true;
-
-                    // check if the process is inativo, then skip this round
-                    if (processos[i].getStatus().equals("Inativo")) {
-                        continue;
+            for (int i = idOfInitiator; i < n; i++) {
+                if (processos[idOfInitiator].getStatus().equals("ativo")) {
+                    if (idOfInitiator != i) {
+                        System.out.println("Processo " + idOfInitiator + " envia mensagem de Eleicao(" + idOfInitiator
+                                + ") para o processo " + i);
+                        higherProcesses = true;
                     }
-
-                    // use for loop to again iterate processos
-                    for (int j = i + 1; j < n; j++) {
-                        if (processos[j].getStatus().equals("ativo")) {
-                            System.out.println("Processo " + i + " envia mensagem de Eleicao(" + idOfInitiator
-                                    + ") para o processo " + j);
-                            higherProcesses = true;
-                        }
-                    }
+                } else {
+                    idOfInitiator++;
                 }
             }
 
             // check for higher process
             if (higherProcesses) {
                 // use for loop to again iterate processos
-                for (int i = idOfInitiator + 1; i < n; i++) {
+                for (int i = idOfInitiator; i < n; i++) {
                     if (processos[i].getStatus().equals("ativo")) {
-                        System.out.println("Processo " + i + " responde mensagem de Ok(" + i + ") para o processo " + idOfInitiator);
+                        if (idOfInitiator != i) {
+                            System.out.println("Processo " + i + " responde mensagem de Ok(" + i + ") para o processo " + idOfInitiator);
+                        }
                     }
                 }
                 // increment initiator id
