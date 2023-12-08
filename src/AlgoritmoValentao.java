@@ -28,7 +28,6 @@ public class AlgoritmoValentao {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-
             e.printStackTrace();
         }
 
@@ -41,10 +40,9 @@ public class AlgoritmoValentao {
 
         // declare and initialize variables
         int idOfInitiator = 0;
-        boolean overStatus = true;
 
         // use while loop to repeat steps
-        while (overStatus) {
+        while (true) {
             boolean higherProcesses = false;
 
             // iterate all the processos
@@ -87,7 +85,6 @@ public class AlgoritmoValentao {
                 }
 
                 System.out.println("Fim da eleição");
-                overStatus = false;
                 break;
             }
         }
@@ -107,7 +104,7 @@ public class AlgoritmoValentao {
         int mxId = -99;
         int mxIdIndex = 0;
         for (int i = 0; i < processos.length; i++) {
-            if (processos[i].getStatus() == "ativo" && processos[i].getId() > mxId) {
+            if (processos[i].getStatus().equals("ativo") && processos[i].getId() > mxId) {
                 mxId = processos[i].getId();
                 mxIdIndex = i;
             }
