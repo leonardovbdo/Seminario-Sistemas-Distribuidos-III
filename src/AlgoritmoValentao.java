@@ -31,21 +31,21 @@ public class AlgoritmoValentao {
             e.printStackTrace();
         }
 
-        // show failed process
+        // declara o processo inativo
         int inactiveProcessId = chooseRandomInactiveProcess();
         System.out.println("Processo de id " + processos[inactiveProcessId].getId() + " está inativo");
 
-        // change status to Inativo of the failed process
+        // muda o status pra inativo
         processos[inactiveProcessId].setStatus("Inativo");
 
-        // declare and initialize variables
+        // variavel de apoio
         int idOfInitiator = 0;
 
-        // use while loop to repeat steps
+        // loop infinito pra realizar os passos
         while (true) {
             boolean higherProcesses = false;
 
-            // iterate all the processos
+            // itera por todos os processos
             for (int i = idOfInitiator; i < n; i++) {
                 if (processos[idOfInitiator].getStatus().equals("ativo")) {
                     if (idOfInitiator != i) {
@@ -58,9 +58,9 @@ public class AlgoritmoValentao {
                 }
             }
 
-            // check for higher process
+            // checa por maiores processos
             if (higherProcesses) {
-                // use for loop to again iterate processos
+                // usa o loop novamente para iterar sobre os processos superiores
                 for (int i = idOfInitiator; i < n; i++) {
                     if (processos[i].getStatus().equals("ativo")) {
                         if (idOfInitiator != i) {
@@ -68,13 +68,12 @@ public class AlgoritmoValentao {
                         }
                     }
                 }
-                // increment initiator id
                 idOfInitiator++;
             } else {
-                // get the last process from the processos that will become coordinator
+                // pega o processo ativo de maior índice para declarar como coordenador
                 int coord = processos[getMaxValue()].getId();
 
-                // show process that becomes the coordinator
+                // Exibe o processo coordenador
                 System.out.println("Por fim o processo " + coord + " se torna o coordenador");
 
                 for (int i = coord - 1; i >= 0; i--) {
@@ -91,6 +90,7 @@ public class AlgoritmoValentao {
 
     }
 
+    // Atribui uma variável aleatória para ser o processo inativo
     private int chooseRandomInactiveProcess() {
         Random random = new Random();
         int randomIndex;
@@ -100,6 +100,7 @@ public class AlgoritmoValentao {
         return randomIndex;
     }
 
+    // Método para pegar o processo de maior valor ativo
     public int getMaxValue() {
         int mxId = -99;
         int mxIdIndex = 0;
