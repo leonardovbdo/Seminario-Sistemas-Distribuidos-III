@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class AlgoritmoValentao {
@@ -17,6 +18,7 @@ public class AlgoritmoValentao {
         processos = new Processo[n];
         for (int i = 0; i < n; i++) {
             processos[i] = new Processo(i);
+            System.out.println(processos[i].getId());
         }
     }
 
@@ -31,10 +33,11 @@ public class AlgoritmoValentao {
         }
 
         // show failed process
-        System.out.println("Processo de id " + processos[getMaxValue()].getId() + " está inativo");
+        int inactiveProcessId = chooseRandomInactiveProcess();
+        System.out.println("Processo de id " + processos[inactiveProcessId].getId() + " está inativo");
 
         // change status to Inativo of the failed process
-        processos[getMaxValue()].setStatus("Inativo");
+        processos[inactiveProcessId].setStatus("Inativo");
 
         // declare and initialize variables
         int idOfInitiator = 0;
@@ -42,34 +45,42 @@ public class AlgoritmoValentao {
 
         // use while loop to repeat steps
         while (overStatus) {
-
-            boolean higherprocessos = false;
+            boolean higherProcesses = false;
 
             // iterate all the processos
             for (int i = idOfInitiator + 1; i < n; i++) {
-                if (processos[i].getStatus() == "ativo") {
+                if (processos[i].getStatus().equals("ativo")) {
                     System.out.println("Processo " + idOfInitiator + " envia mensagem de Eleicao(" + idOfInitiator
                             + ") para o processo " + i);
-                    higherprocessos = true;
+                    higherProcesses = true;
 
+                    // check if the process is inativo, then skip this round
+                    if (processos[i].getStatus().equals("Inativo")) {
+                        continue;
+                    }
+
+                    // use for loop to again iterate processos
+                    for (int j = i + 1; j < n; j++) {
+                        if (processos[j].getStatus().equals("ativo")) {
+                            System.out.println("Processo " + i + " envia mensagem de Eleicao(" + idOfInitiator
+                                    + ") para o processo " + j);
+                            higherProcesses = true;
+                        }
+                    }
                 }
             }
 
             // check for higher process
-            if (higherprocessos) {
-
+            if (higherProcesses) {
                 // use for loop to again iterate processos
                 for (int i = idOfInitiator + 1; i < n; i++) {
-                    if (processos[i].getStatus() == "ativo") {
+                    if (processos[i].getStatus().equals("ativo")) {
                         System.out.println("Processo " + i + " responde mensagem de Ok(" + i + ") para o processo " + idOfInitiator);
                     }
-
                 }
                 // increment initiator id
                 idOfInitiator++;
-            }
-
-            else {
+            } else {
                 // get the last process from the processos that will become coordinator
                 int coord = processos[getMaxValue()].getId();
 
@@ -77,7 +88,7 @@ public class AlgoritmoValentao {
                 System.out.println("Por fim o processo " + coord + " se torna o coordenador");
 
                 for (int i = coord - 1; i >= 0; i--) {
-                    if (processos[i].getStatus() == "ativo") {
+                    if (processos[i].getStatus().equals("ativo")) {
                         System.out.println(
                                 "Processo " + coord + " envia mensagem de Coordenador(" + coord + ") para o processo " + i);
                     }
@@ -89,6 +100,15 @@ public class AlgoritmoValentao {
             }
         }
 
+    }
+
+    private int chooseRandomInactiveProcess() {
+        Random random = new Random();
+        int randomIndex;
+        do {
+            randomIndex = random.nextInt(n);
+        } while (!processos[randomIndex].getStatus().equals("ativo"));
+        return randomIndex;
     }
 
     public int getMaxValue() {
