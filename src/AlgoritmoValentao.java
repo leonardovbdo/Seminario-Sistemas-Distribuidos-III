@@ -115,10 +115,8 @@ public class AlgoritmoValentao {
 
     public static void main(String[] args) {
 
-        // create instance of the BullyAlgoExample2 class
         AlgoritmoValentao algoritmoValentao = new AlgoritmoValentao();
 
-        // call ring() and performElection() method
         algoritmoValentao.anel();
         algoritmoValentao.performElection();
 
